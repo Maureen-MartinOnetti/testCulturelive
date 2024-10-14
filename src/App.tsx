@@ -1,10 +1,15 @@
 import { Button } from './components/ui/button';
+import MyCard from './components/mycard';
+import { movies } from './data/movies';
 
 function App() {
     return (
-        <div>
-            <h1>page principale</h1>
-            <Button>okay</Button>
+        <div className="max-w-screen-2xl block mx-auto">
+            <div className="flex flex-wrap justify-center gap-4">
+                {movies.map((movie) => {
+                    return <MyCard data={movie} />;
+                })}
+            </div>
         </div>
     );
 }
