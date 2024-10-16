@@ -18,10 +18,18 @@ function App() {
     const [currentPage, setCurrentPage] = useState(1);
     const [moviesPerPage, setMoviesPerPage] = useState(4);
 
+    //Liste de tous les ids supprimés
+    const [idsSupp, setIdsSupp] = useState<string[]>([]);
+
     // Obtenir les films filtrés en fonction de la catégorie sélectionnée
-    const filteredMovies = movies.filter((movie) => {
-        return categorySelectionne === '' || movie.category === categorySelectionne;
-    });
+    const filteredMovies = movies
+        .filter((movie) => {
+            return categorySelectionne === '' || movie.category === categorySelectionne;
+        })
+        .filter((movie) => {
+            //On filtre de nouveau pour enlever les films sont l'id aurait été supprimé et stocké dans mon state idsSupp
+            return !idsSupp.includes(movie.id);
+        });
 
     // Calculer les films de la page actuelle
     const indexOfLastMovie = currentPage * moviesPerPage;
@@ -52,7 +60,16 @@ function App() {
 
             <div className="flex flex-wrap justify-center gap-4">
                 {currentMovies.map((movie) => (
-                    <MyCard key={movie.id} data={movie} />
+                    <MyCard
+                        key={movie.id}
+                        data={movie}
+                        onClickDelete={(movieId) => {
+                            setIdsSupp((prev) => {
+                                //Prev est la valeur actuelle de mon state
+                                return [...prev, movieId]; //Je viens rajouter l'id du film supprimé à mes valeurs précédentes.
+                            });
+                        }}
+                    />
                 ))}
             </div>
 

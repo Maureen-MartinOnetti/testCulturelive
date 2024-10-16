@@ -5,14 +5,27 @@ import { Button } from './ui/button';
 import { ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
-type MyCardProps = { data: Movie };
+type MyCardProps = {
+    data: Movie;
+    onClickDelete: (id: string) => void;
+};
 
 function MyCard(props: MyCardProps) {
     const progress = (props.data.likes / (props.data.likes + props.data.dislikes)) * 100;
 
     return (
         <Card className="relative sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w1/5">
-            <Button className="absolute top-2 right-2" size={'sm'} variant={'ghost'}>
+            <Button
+                className="absolute top-2 right-2"
+                size={'sm'}
+                variant={'ghost'}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    props.onClickDelete(props.data.id);
+                }}
+            >
                 <Trash2 className="w-4 h-4 hover:text-red-500 " />
             </Button>
 
