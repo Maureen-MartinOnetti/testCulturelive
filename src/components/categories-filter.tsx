@@ -15,6 +15,13 @@ export function CategoriesFilter(props: CategoriesFilterProps) {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState('');
 
+    //On écoute les changements du nombres de catégories que l'on
+    //A chaque changement du nombre, le code à l'intérieur s'execute
+    React.useEffect(() => {
+        setValue(''); //On reset la selection
+        props.onSelect(''); //On notifie le parent que l'on a reset la selection
+    }, [props.categories.length]);
+
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -34,8 +41,8 @@ export function CategoriesFilter(props: CategoriesFilterProps) {
                                     key={category}
                                     value={category}
                                     onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? '' : currentValue);
-                                        props.onSelect(currentValue === value ? '' : currentValue);
+                                        setValue(currentValue === value ? '' : currentValue); //On change la valeur en interne du composant
+                                        props.onSelect(currentValue === value ? '' : currentValue); //On notifie le parent de la nouvelle valeur
                                         setOpen(false);
                                     }}
                                 >

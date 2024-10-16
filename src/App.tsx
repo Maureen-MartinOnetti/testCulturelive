@@ -31,6 +31,13 @@ function App() {
             return !idsSupp.includes(movie.id);
         });
 
+    //On récupére la liste des catégories des films non supprimés
+    const categorieRestantes = getCategoriesFromMovies(
+        movies.filter((movie) => {
+            return !idsSupp.includes(movie.id);
+        })
+    );
+
     // Calculer les films de la page actuelle
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
@@ -50,11 +57,12 @@ function App() {
 
             <div className="flex justify-center items-center mb-10">
                 <CategoriesFilter
+                    //S'execute a chaque fois que la categorie change
                     onSelect={(category) => {
-                        setCategorySelectionne(category);
+                        setCategorySelectionne(category); //Update le state qui stocke la categorie sélectionnée
                         setCurrentPage(1); // Revenir à la première page lorsque la catégorie change
                     }}
-                    categories={getCategoriesFromMovies(movies)}
+                    categories={categorieRestantes}
                 />
             </div>
 
