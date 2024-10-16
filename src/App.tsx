@@ -8,13 +8,15 @@ import {
     PaginationItem,
     PaginationLink,
     PaginationPrevious,
-    PaginationNext
+    PaginationNext,
+    PaginationContent
 } from './components/ui/pagination';
+import { ParPageSelecteur } from './components/affichage-nombre-carte';
 
 function App() {
     const [categorySelectionne, setCategorySelectionne] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const moviesPerPage = 5; // Nombre de films à afficher par page
+    const [moviesPerPage, setMoviesPerPage] = useState(4);
 
     // Obtenir les films filtrés en fonction de la catégorie sélectionnée
     const filteredMovies = movies.filter((movie) => {
@@ -54,22 +56,37 @@ function App() {
                 ))}
             </div>
 
-            <Pagination className="mt-10">
-                <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <PaginationItem key={index}>
-                        <PaginationLink
-                            isActive={currentPage === index + 1}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            {index + 1}
-                        </PaginationLink>
-                    </PaginationItem>
-                ))}
-                <PaginationNext
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
+            <div className="flex items-center justify-center gap-2 mt-10 mb-4">
+                <p className="text-sm">Afficher par:</p>
+                <ParPageSelecteur
+                    onSelect={(selection) => {
+                        setMoviesPerPage(selection);
+                        //Reset de la page pour revenir au début
+                        setCurrentPage(1);
+                    }}
                 />
+            </div>
+            <Pagination className="mb-10">
+                <PaginationContent>
+                    <PaginationPrevious
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <PaginationItem key={index}>
+                            <PaginationLink
+                                isActive={currentPage === index + 1}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                {index + 1}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ))}
+                    <PaginationNext
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    />
+                </PaginationContent>
             </Pagination>
         </div>
     );
