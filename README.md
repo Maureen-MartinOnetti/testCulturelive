@@ -1,3 +1,11 @@
+# Prérequis
+Pour visualiser le projet, vous devez:
+- `npm install`
+- `npm run dev`
+
+Rendez-vous sur: `http://localhost:5173`
+(ou sur l'url qui sera indiqué sur votre terminal)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
